@@ -2,7 +2,7 @@ ul.socias-network{
     list-style: none;
     padding: 0;
 }
-.ul.socias-network li {
+ul.socias-network li {
     display: inline;
     margin: 0;
     padding: 5px;
