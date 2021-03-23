@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { CadastrarComponent } from './cadastrar/cadastrar.component';
 import { EntrarComponent } from './entrar/entrar.component';
 
+//O path é o nome do componente.
 const routes: Routes = [
   { path: '', redirectTo: 'entrar', pathMatch: 'full' },
 
