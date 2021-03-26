@@ -14,6 +14,8 @@ import { CadastrarComponent } from './cadastrar/cadastrar.component';
 import { from } from 'rxjs';
 import { InicioComponent } from './inicio/inicio.component';
 import { TemaComponent } from './tema/tema.component';
+import { TemaEditarComponent } from './editar/tema-editar/tema-editar.component';
+import { TemaDeleteComponent } from './delete/tema-delete/tema-delete.component';
 
 
 
@@ -25,7 +27,9 @@ import { TemaComponent } from './tema/tema.component';
     EntrarComponent,
     CadastrarComponent,
     InicioComponent,
-    TemaComponent
+    TemaComponent,
+    TemaEditarComponent,
+    TemaDeleteComponent
   ],
   imports: [
     BrowserModule,
