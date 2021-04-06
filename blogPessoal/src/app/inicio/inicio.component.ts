@@ -29,6 +29,10 @@ export class InicioComponent implements OnInit {
   /* Instancias de Usuário*/
   usuario: Usuario = new Usuario()
   idUsuario = environment.id
+
+
+  key = 'data'
+  reverse = true
   
 
   constructor(
