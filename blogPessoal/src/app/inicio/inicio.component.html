@@ -87,7 +87,7 @@
             <!-- Postagem pela lista de postagem por tema -->
         <div class="tab-pane fade" id="postagemTema" role="tabpanel" aria-labelledby="nav-postagemTema-tab">
 
-            <div class="card-columns" *ngForn='let tema of listaTemas'>
+            <div class="card-columns" *ngFor='let tema of listaTemas'>
                 <div class="card text-center" *ngFor='let item of tema.postagem'>
                     <div class="card-body">
                         <h5 class="card-title m-0">{{item.titulo}}</h5>
@@ -127,7 +127,7 @@
 
                 <div class="form-grup">
                     <label for="texto">Texto</label>
-                    <textarea [(ngModel)='postagem.texto' class="form-control" name="texto" id="texto"
+                    <textarea [(ngModel)]='postagem.texto' class="form-control" name="texto" id="texto"
                         rows="3"></textarea>
                 </div>
 
