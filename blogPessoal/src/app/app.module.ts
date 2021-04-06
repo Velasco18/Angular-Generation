@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { HashLocationStrategy, LocationStrategy} from '@angular/common'
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 
 import { AppComponent } from './app.component';
@@ -19,6 +20,8 @@ import { TemaDeleteComponent } from './delete/tema-delete/tema-delete.component'
 import { PostagemEditarComponent } from './editar/postagem-editar/postagem-editar.component';
 import { PostagemDeleteComponent } from './delete/postagem-delete/postagem-delete.component';
 import { UserEditarComponent } from './editar/user-editar/user-editar.component';
+import { AlertasComponent } from './alertas/alertas.component';
+
 
 
 
@@ -35,13 +38,15 @@ import { UserEditarComponent } from './editar/user-editar/user-editar.component'
     TemaDeleteComponent,
     PostagemEditarComponent,
     PostagemDeleteComponent,
-    UserEditarComponent
+    UserEditarComponent,
+    AlertasComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    ModalModule.forRoot()
   ],
   providers: [{
     provide: LocationStrategy,
