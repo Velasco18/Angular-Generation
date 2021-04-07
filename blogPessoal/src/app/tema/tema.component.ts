@@ -23,6 +23,12 @@ export class TemaComponent implements OnInit {
     if(environment.token == ''){
       this.router.navigate(['/entrar'])
     }
+/* preciso colocar um alerta info aqui */
+    if(environment.tipoUsuario != 'adm'){
+      alert('Você não possui credencias de adm para acessar!')
+      this.router.navigate(['/inicio'])
+    }
+
     this.findAllTemas()
   }
 
