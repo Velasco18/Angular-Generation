@@ -21,6 +21,10 @@ export class TemaService {
   /* Para o getby id precisamos passar parámetro que é feito por ${} */
   getByIdTema(id: number):Observable<Tema>{
     return this.http.get<Tema>(`http://localhost:8080/tema/${id}`, this.token)
+  }
+
+  getByNomeTema(nome: string): Observable<Tema[]>{
+    return this.http.get<Tema[]>(`http://localhost:8080/tema/nome/${nome}`, this.token)
 
   }
 
