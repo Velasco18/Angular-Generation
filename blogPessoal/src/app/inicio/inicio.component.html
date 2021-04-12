@@ -13,8 +13,8 @@
                 <div class="col-md-6 ">
                     <button class="btn btn-light mr-2" data-toggle="modal" data-target="#novaPostagem">Nova
                         Postagem</button>
-                       <!--  *ngIf='authService.adm()'para apenas adm ver o botão -->
-                    <a  class="btn btn-outline-light" href="#postagens">Ver Postagens</a>
+                    <!--  *ngIf='authService.adm()'para apenas adm ver o botão -->
+                    <a class="btn btn-outline-light" href="#postagens">Ver Postagens</a>
                 </div>
             </div>
 
@@ -54,7 +54,8 @@
             <div class="row d-flex justify-content-center mt-5 mb-5">
                 <div class="col-md-4">
                     <div class="form-group">
-                        <input type="text" class="form-control" id="titulo" placeholder="Digite o titulo para pesquisar" [(ngModel)]='tituloPost' (keyup)='findByTituloPostagem()'>
+                        <input type="text" class="form-control" id="titulo" placeholder="Digite o titulo para pesquisar"
+                            [(ngModel)]='tituloPost' (keyup)='findByTituloPostagem()'>
                     </div>
                 </div>
             </div>
@@ -71,22 +72,98 @@
 
                         <p class="card-text"><small class="text-muted"> by: {{item.usuario.nome}}</small></p>
                     </div>
+
+                    <div class="card-footer text-muted">
+
+                        <!--Comentarios -->
+                        <div class="accordion" [attr.id]="'coment' + item.id">
+
+                            <div class="mt-2" id="headingTwo">
+                                <h5 class="mb-0">
+                                    <button class="btn btn-link collapsed text-dark" type="button"
+                                        data-toggle="collapse" [attr.data-target]="'#' + 'comentButton' + item.id"
+                                        aria-expanded="false" aria-controls="collapseTwo">
+                                        <p class="text-primary font-weight-bold mb-2">
+                                            <i class="fa fa-commenting-o" aria-hidden="true"></i> Comentar
+                                        </p>
+                                    </button>
+                                </h5>
+                            </div>
+
+                            <div [attr.id]="'comentButton' + item.id" class="collapse" aria-labelledby="headingTwo"
+                                [attr.data-parent]="'#' + 'coment' + item.id">
+
+                                <div class="row mb-3">
+                                    <div class="col d-flex justify-content-center align-items-center p-4">
+                                        <img class="rounded-circle mr-3" src={{foto}} width="30px" height="30px" />
+                                        <div class="input-group w-100">
+                                            <input type="text" class="form-control mr-2"
+                                                placeholder="Digite aqui seu comentário"
+                                                aria-label="Recipient's username" aria-describedby="button-addon2"
+                                                [(ngModel)]='comentario.comentario' id='inputComentario'>
+                                            <div class="input-group-append">
+                                                <button class="btn btn-outline-primary" (click)='comentar(item.id)'
+                                                    id="button-addon2">Comentar</button>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="row d-flex justify-content-center"
+                                    *ngFor='let coment of item.comentario | orderBy : key : reverse'>
+                                    <div class="col-md-11">
+                                        <div class="card mb-3 shadow border-0 rounded">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col d-flex justify-content-start">
+                                                        <p> <img class=rounded-circle src={{coment.usuario.foto}}
+                                                                width="30px" height="30px" />
+                                                            {{coment.usuario.nome}} comentou: </p>
+                                                    </div>
+                                                    <!--Apagar comentario-->
+
+                                                    <div class="di">
+                                                     <button (click)='apagarComentario(coment.id)' class="text-danger">Apagar</button>
+                                                    </div>
+                                                     <!-- Fim Apagar comentario-->
+
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <p class="card-text ml-4" aria-describedby="texto">
+                                                            {{coment.comentario}} </p>
+                                                    </div>
+                                                </div>
+
+                                                <hr>
+
+                                                <div class="d-flex justify-content-end">
+                                                    <small id="texto" class="form-text m-0 text-muted text-monospace">
+                                                        Comentado em {{ coment.data | date:'dd/MM/yyyy'}} às
+                                                        {{coment.data | date:'HH:mm'}}
+                                                    </small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--/Comentarios-->
+                    </div>
                 </div>
-            </div>
-             <!--Aqui vou colocar o comentario -->
-            <div class="card-footer text-muted">
-
-
 
             </div>
 
         </div>
 
-            <!-- Lista de postagem por usuário -->
+        <!-- Lista de postagem por usuário -->
         <div class="tab-pane fade" id="minhasPostagens" role="tabpanel" aria-labelledby="nav-minhasPostagens-tab">
 
             <div class="card-columns">
-                <div class="card text-center" *ngFor='let item of usuario.postagem | orderBy: key: reverse'>    
+                <div class="card text-center" *ngFor='let item of usuario.postagem | orderBy: key: reverse'>
                     <div class="card-body">
                         <h5 class="card-title m-0">{{item.titulo}}</h5>
                         <small class="text-muted"> Tema: {{item.tema.descricao}}</small>
@@ -102,13 +179,14 @@
             </div>
         </div>
 
-            <!-- Lista de postagem por tema -->
+        <!-- Lista de postagem por tema -->
         <div class="tab-pane fade" id="postagemTema" role="tabpanel" aria-labelledby="nav-postagemTema-tab">
 
             <div class="row d-flex justify-content-center mt-5 mb-5">
                 <div class="col-md-4">
                     <div class="form-group">
-                        <input type="text" class="form-control" id="titulo" placeholder="Digite um tema para pesquisar" [(ngModel)]='nomeTema' (keyup)='findByNomeTema()'>
+                        <input type="text" class="form-control" id="titulo" placeholder="Digite um tema para pesquisar"
+                            [(ngModel)]='nomeTema' (keyup)='findByNomeTema()'>
                     </div>
                 </div>
             </div>

@@ -1,12 +1,14 @@
 import { CoreEnvironment } from '@angular/compiler/src/compiler_facade_interface';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from 'src/environments/environment.prod';
+import { Comentario } from '../model/Comentario';
 import { Postagem } from '../model/Postagem';
 import { Tema } from '../model/Tema';
 import { Usuario } from '../model/Usuario';
 import { AlertasService } from '../service/alertas.service';
 import { AuthService } from '../service/auth.service';
+import { ComentariosService } from '../service/comentarios.service';
 import { PostagemService } from '../service/postagem.service';
 import { TemaService } from '../service/tema.service';
 
@@ -21,6 +23,7 @@ export class InicioComponent implements OnInit {
   postagem: Postagem = new Postagem()
   listaPostagens: Postagem[]
   tituloPost: string
+  idPostagem = environment.id
 
   /* Instancias de Tema */
   tema: Tema = new Tema()
@@ -34,16 +37,24 @@ export class InicioComponent implements OnInit {
   foto = environment.foto
   nome = environment.nome
 
+
   key = 'data'
   reverse = true
   
+  comentario: Comentario = new Comentario()
+  listaComentarios: Comentario[]
 
+  idComentario: number
+  
   constructor(
     private router: Router,
     private postagemService: PostagemService,
     private temaService: TemaService,
     public authService: AuthService,
-    private alertas: AlertasService
+    private alertas: AlertasService,
+    private comentarioService: ComentariosService,
+    private route: ActivatedRoute
+
   ) { }
 
   ngOnInit() {
@@ -55,6 +66,7 @@ export class InicioComponent implements OnInit {
 
     this.getAllTemas()
     this.getAllPostagens()
+    let idComentario = this.route.snapshot.params['id']
 
   }
   getAllTemas(){
@@ -118,4 +130,48 @@ export class InicioComponent implements OnInit {
       })
     }
   }
+
+  comentar(id: number){
+
+    this.usuario.id = this.idUsuario;
+    this.comentario.usuario = this.usuario;
+
+    this.postagem.id = id;
+    this.comentario.postagem = this.postagem;
+
+    this.comentarioService.postComentario(this.comentario).subscribe((resp: Comentario) => {
+      this.comentario = resp
+      this.alertas.showAlertSuccess('Comentário inserido com sucesso!');
+      this.comentario = new Comentario();
+      this.getAllPostagens();
+    }, err => {
+      console.log(this.comentario)
+    })
+
+  }
+
+  findallComentarios(){
+    this.comentarioService.getAllComentarios().subscribe((resp: Comentario[])=>{
+      this.listaComentarios = resp
+    })
+  }
+  deleteComent(id:number)
+  {
+    let idComent = Number(id)
+    let pathId = this.idPostagem
+    console.log('entrou!'+ idComent)
+    this.comentarioService.deleteComentario(idComent).subscribe(()=>{
+      this.alertas.showAlertSuccess("Comentario apagado!");
+    });
+
+  }
+  apagarComentario(id: number){
+    this.comentarioService.deleteComentario(id).subscribe(() =>{
+      this.alertas.showAlertSuccess('Comentario apagado com sucesso!')
+      this.getAllPostagens()
+      
+    })
+    
+  }
+
 }
